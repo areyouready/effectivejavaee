@@ -1,37 +1,33 @@
 package com.airhacks.doit.business.reminders.boundary;
 
+import static com.airhacks.rulz.jaxrsclient.JAXRSClientProvider.buildWithURI;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
+import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import com.airhacks.rulz.jaxrsclient.JAXRSClientProvider;
 
 /**
  * Created by sebastianbasner on 30.10.15.
  */
 public class TodosResourceIT {
 
-   private Client client;
-   private WebTarget tut;
-
-   @Before
-   public void initClient() {
-      this.client = ClientBuilder.newClient();
-      this.tut = this.client.target("http://localhost:8080/doit/api/todos");
-   }
+   @Rule
+   public JAXRSClientProvider provider = buildWithURI("http://localhost:8080/doit/api/todos");
 
    @Test
    public void fetchToDos() {
-      final Response response = this.tut.request(MediaType.TEXT_PLAIN).get();
+      final Response response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
       assertThat(response.getStatus(), is(200));
-      final String payload = response.readEntity(String.class);
-      assertTrue(payload.startsWith("hey"));
+      final JsonObject payload = response.readEntity(JsonObject.class);
+      System.out.println("payload " + payload);
+      assertTrue(payload.getString("caption").startsWith("implement"));
    }
 }
