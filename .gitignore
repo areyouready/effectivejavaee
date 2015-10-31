@@ -25,5 +25,12 @@ target-eclipse
 logs
 /bin
 
+# bin
+*.war
+*.jar
+
+# java
+*.class
+
 # generated css
 web-app/css/application.css
