@@ -4,8 +4,11 @@ import static com.airhacks.rulz.jaxrsclient.JAXRSClientProvider.buildWithURI;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,6 +27,15 @@ public class TodosResourceIT {
 
    @Test
    public void crud() {
+      //create
+      JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
+      final JsonObject todoToCreate = todoBuilder.
+            add("caption", "implement").
+            add("priority", 42).
+            build();
+      final Response postResponse = this.provider.target().request().post(Entity.json(todoToCreate));
+      assertThat(postResponse.getStatus(), is(204));
+
       final Response response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
       assertThat(response.getStatus(), is(200));
       final JsonArray allTodos = response.readEntity(JsonArray.class);
