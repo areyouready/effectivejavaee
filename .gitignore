@@ -1,0 +1,29 @@
+# ggts
+.classpath
+.project
+.settings
+target-eclipse
+
+# idea
+.idea
+*.iml
+*.iws
+*.ipr
+/out
+
+# git
+*.orig
+
+*.DS_Store
+
+# database
+*.db
+
+# logs
+**/*.log
+*.log
+logs
+/bin
+
+# generated css
+web-app/css/application.css
