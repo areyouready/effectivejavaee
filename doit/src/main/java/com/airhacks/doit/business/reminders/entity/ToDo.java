@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement // for serialization purposes (transfer over network)
 public class ToDo {
 
+   private long id;
    private String caption;
    private String description;
    private int priority;
