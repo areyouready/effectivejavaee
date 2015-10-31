@@ -2,6 +2,8 @@ package com.airhacks.doit.business.reminders.boundary;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+import com.airhacks.doit.business.reminders.entity.ToDo;
+
 /**
  * Created by sebastianbasner on 30.10.15.
  */
@@ -9,8 +11,8 @@ import javax.ws.rs.Path;
 public class TodosResource {
 
    @GET
-   public String hello () {
-      return "hey " + System.currentTimeMillis();
+   public ToDo hello () {
+      return new ToDo("implement REST endpoint", "...", 100);
    }
 
 }
