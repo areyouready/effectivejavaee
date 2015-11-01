@@ -69,7 +69,7 @@ public class TodosResourceIT {
       //update status
       //update
       JsonObjectBuilder statusBuilder = Json.createObjectBuilder();
-      final JsonObject status = statusBuilder.
+      JsonObject status = statusBuilder.
             add("done", true).
             build();
 
@@ -87,8 +87,38 @@ public class TodosResourceIT {
       assertThat(updatedTodo.getBoolean("done"), is(true));
 
 
+      //update not existing status
+      JsonObjectBuilder notExistingBuilder = Json.createObjectBuilder();
+      status = notExistingBuilder.
+            add("done", true).
+            build();
+
+      Response response = this.provider.target().
+            path("-42"). //does not exist
+            path("status"). //use the subresource
+            request(MediaType.APPLICATION_JSON).
+            put(Entity.json(status));
+      assertThat(response.getStatus(), is(400)); //Bad Request
+      assertFalse(response.getHeaderString("reason").isEmpty());
+
+      //update malformed status
+      notExistingBuilder = Json.createObjectBuilder();
+      status = notExistingBuilder.
+            add("something wrong", true).
+            build();
+
+      response = this.provider.
+            client().
+            target(location).
+            path("status"). //use the subresource
+            request(MediaType.APPLICATION_JSON).
+            put(Entity.json(status));
+      assertThat(response.getStatus(), is(400)); //Bad Request
+      assertFalse(response.getHeaderString("reason").isEmpty());
+
+
       //findAll
-      final Response response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
+      response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
       assertThat(response.getStatus(), is(200));
       final JsonArray allTodos = response.readEntity(JsonArray.class);
       System.out.println("payload " + allTodos);
