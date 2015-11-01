@@ -38,4 +38,10 @@ public class ToDoManager {
    public ToDo save(ToDo todo) { //needs to return the ToDo Object because the generated ID is needed
       return this.em.merge(todo); //merge is used for insert and update
    }
+
+   public ToDo updateStatus(long id, boolean done) {
+      final ToDo todo = this.findById(id);
+      todo.setDone(done);
+      return todo;
+   }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -44,6 +45,13 @@ public class TodosResource {
    public ToDo update(@PathParam("id") long id, ToDo todo) {
       todo.setId(id); //id from location header overrides the one from the object
       return this.manager.save(todo);
+   }
+
+   @PUT
+   @Path("{id}/status") //subresource
+   public ToDo statusUpdate(@PathParam("id") long id, JsonObject statusUpdate) {
+      final boolean done = statusUpdate.getBoolean("done");
+      return this.manager.updateStatus(id, done);
    }
 
    @GET
