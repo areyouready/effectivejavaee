@@ -33,9 +33,39 @@ public class TodosResourceIT {
             add("caption", "implement").
             add("priority", 42).
             build();
-      final Response postResponse = this.provider.target().request().post(Entity.json(todoToCreate));
-      assertThat(postResponse.getStatus(), is(204));
 
+      //create
+      final Response postResponse = this.provider.target().request().post(Entity.json(todoToCreate));
+      assertThat(postResponse.getStatus(), is(201));
+      final String location = postResponse.getHeaderString("Location"); //the new uri
+      System.out.println("location = " + location);
+
+      //find
+      //GET with id
+      final JsonObject dedicatedTodo = this.provider.client().
+            target(location).
+            request(MediaType.APPLICATION_JSON).
+            get(JsonObject.class);
+      assertTrue(dedicatedTodo.getString("caption").contains("implement")); //should match the created above
+
+      //update
+      JsonObjectBuilder updateBuilder = Json.createObjectBuilder();
+      final JsonObject updated = updateBuilder.
+            add("caption", "implemented").
+            build();
+
+      this.provider.client().
+            target(location).request(MediaType.APPLICATION_JSON).
+            put(Entity.json(updated));
+
+      //find it again
+      final JsonObject updatedTodo = this.provider.client().
+            target(location).
+            request(MediaType.APPLICATION_JSON).
+            get(JsonObject.class);
+      assertTrue(updatedTodo.getString("caption").contains("implemented"));
+
+      //findAll
       final Response response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
       assertThat(response.getStatus(), is(200));
       final JsonArray allTodos = response.readEntity(JsonArray.class);
@@ -45,13 +75,7 @@ public class TodosResourceIT {
       final JsonObject todo = allTodos.getJsonObject(0);
       assertTrue(todo.getString("caption").startsWith("impl"));
 
-      //GET with id
-      final JsonObject dedicatedTodo = this.provider.target().
-            path("42").
-            request(MediaType.APPLICATION_JSON).
-            get(JsonObject.class);
-      assertTrue(dedicatedTodo.getString("caption").contains("42"));
-
+      //deleting not existing
       final Response deleteResponse = this.provider.target().
             path("42").
             request(MediaType.APPLICATION_JSON).

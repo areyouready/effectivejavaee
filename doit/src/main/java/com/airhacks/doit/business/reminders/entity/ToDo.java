@@ -36,4 +36,24 @@ public class ToDo {
 
    public ToDo() {
    }
+
+   public void setId(long id) {
+      this.id = id;
+   }
+
+   public long getId() {
+      return id;
+   }
+
+   public String getCaption() {
+      return caption;
+   }
+
+   public int getPriority() {
+      return priority;
+   }
+
+   public String getDescription() {
+      return description;
+   }
 }
