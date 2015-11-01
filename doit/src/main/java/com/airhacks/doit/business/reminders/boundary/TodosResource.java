@@ -28,42 +28,9 @@ public class TodosResource {
    @Inject
    ToDoManager manager;
 
-   @GET
    @Path("{id}")
-   public ToDo find(@PathParam("id") long id) {
-      return  this.manager.findById(id);
-   }
-
-   @DELETE
-   @Path("{id}")
-   public void delete(@PathParam("id") long id) {
-      this.manager.delete(id);
-   }
-
-   @PUT
-   @Path("{id}")
-   public ToDo update(@PathParam("id") long id, ToDo todo) {
-      todo.setId(id); //id from location header overrides the one from the object
-      return this.manager.save(todo);
-   }
-
-   @PUT
-   @Path("{id}/status") //subresource
-   public Response statusUpdate(@PathParam("id") long id, JsonObject statusUpdate) {
-      if(!statusUpdate.containsKey("done")) {
-         return Response.status(Response.Status.BAD_REQUEST).
-               header("reason", "JSON status should contain field done").
-               build();
-      }
-      final boolean done = statusUpdate.getBoolean("done");
-      final ToDo todo = this.manager.updateStatus(id, done);
-      if(todo == null) {
-         return Response.status(Response.Status.BAD_REQUEST).
-               header("reason", "todo with id " + id + " does not exist").
-               build();
-      }else{
-         return Response.ok(todo).build();
-      }
+   public ToDoResource find(@PathParam("id") long id) {
+      return new ToDoResource(id, manager);
    }
 
    @GET
