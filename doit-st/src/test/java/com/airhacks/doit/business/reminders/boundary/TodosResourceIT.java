@@ -50,13 +50,31 @@ public class TodosResourceIT {
 
       //update
       JsonObjectBuilder updateBuilder = Json.createObjectBuilder();
-      final JsonObject updated = updateBuilder.
+      JsonObject updated = updateBuilder.
             add("caption", "implemented").
             build();
 
-      this.provider.client().
-            target(location).request(MediaType.APPLICATION_JSON).
+      Response updatedResponse = this.provider.client().
+            target(location).
+            request(MediaType.APPLICATION_JSON).
             put(Entity.json(updated));
+      assertThat(updatedResponse.getStatus(), is(200));
+
+      //update again (Version has changed)
+      updateBuilder = Json.createObjectBuilder();
+      updated = updateBuilder.
+            add("caption", "implemented").
+            add("priority", 42).
+            build();
+
+      updatedResponse = this.provider.client().
+            target(location).
+            request(MediaType.APPLICATION_JSON).
+            put(Entity.json(updated));
+      assertThat(updatedResponse.getStatus(), is(409)); //409 is set in EJBExceptionMapper
+      final String conflictInformation = updatedResponse.getHeaderString("cause");
+      assertNotNull(conflictInformation);
+      System.out.println("conflictInformation " + conflictInformation);
 
       //find it again
       //find

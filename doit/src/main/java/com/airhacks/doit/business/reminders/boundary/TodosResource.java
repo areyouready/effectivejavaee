@@ -23,7 +23,7 @@ import com.airhacks.doit.business.reminders.entity.ToDo;
  */
 @Stateless
 @Path("todos")
-public class TodosResource {
+public class ToDosResource {
 
    @Inject
    ToDoManager manager;
