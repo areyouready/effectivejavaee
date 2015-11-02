@@ -151,6 +151,32 @@ public class TodosResourceIT {
             request(MediaType.APPLICATION_JSON).
             delete();
       assertThat(deleteResponse.getStatus(), is(204));
+   }
 
+   @Test
+   public void createToDoWithoutCaption() {
+      //create
+      JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
+      final JsonObject todoToCreate = todoBuilder.
+            add("priority", 42).
+            build();
+
+      final Response postResponse = this.provider.target().request().post(Entity.json(todoToCreate));
+      assertThat(postResponse.getStatus(), is(400));
+      postResponse.getHeaders().entrySet().forEach(System.out::println); //Validation exception in header
+   }
+
+   @Test
+   public void createValidToDo() {
+      //create
+      JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
+      final JsonObject todoToCreate = todoBuilder.
+            add("caption", "12").
+            add("priority", 42).
+            build();
+
+      final Response postResponse = this.provider.target().request().post(Entity.json(todoToCreate));
+      assertThat(postResponse.getStatus(), is(201));
+      postResponse.getHeaders().entrySet().forEach(System.out::println);
    }
 }

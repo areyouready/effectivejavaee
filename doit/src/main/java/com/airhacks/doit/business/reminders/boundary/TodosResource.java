@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,7 +41,7 @@ public class ToDosResource {
    }
 
    @POST //POST is used for technical keys; with business keys it would be PUT
-   public Response save(ToDo todo, @Context UriInfo info) {
+   public Response save(@Valid ToDo todo, @Context UriInfo info) { //@valid forces validation before update
       final ToDo saved = this.manager.save(todo);
       long id = saved.getId();
       final URI uri = info.getAbsolutePathBuilder().path("/" + id).build();
