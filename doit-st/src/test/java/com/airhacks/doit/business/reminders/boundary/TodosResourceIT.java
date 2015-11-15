@@ -31,7 +31,7 @@ public class TodosResourceIT {
       JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
       final JsonObject todoToCreate = todoBuilder.
             add("caption", "implement").
-            add("priority", 42).
+            add("priority", 10).
             build();
 
       //create
@@ -180,19 +180,19 @@ public class TodosResourceIT {
       postResponse.getHeaders().entrySet().forEach(System.out::println);
    }
 
-//   @Test
-//   public void createToDoWithHighPriorityWithoutDescription() {
-//      //create
-//      JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
-//      final JsonObject todoToCreate = todoBuilder.
-//            add("caption", "10").
-//            add("priority", 12).
-//            build();
-//
-//      final Response postResponse = this.provider.target().request().
-//            post(Entity.json(todoToCreate));
-//      postResponse.getHeaders().entrySet().forEach(System.out::println);
-//
-//      assertThat(postResponse.getStatus(), is(400));
-//   }
+   @Test
+   public void createToDoWithHighPriorityWithoutDescription() {
+      //create
+      JsonObjectBuilder todoBuilder = Json.createObjectBuilder();
+      final JsonObject todoToCreate = todoBuilder.
+            add("caption", "10").
+            add("priority", 12).
+            build();
+
+      final Response postResponse = this.provider.target().request().
+            post(Entity.json(todoToCreate));
+      postResponse.getHeaders().entrySet().forEach(System.out::println);
+
+      assertThat(postResponse.getStatus(), is(400));
+   }
 }

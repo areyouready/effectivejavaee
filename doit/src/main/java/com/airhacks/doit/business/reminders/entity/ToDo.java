@@ -21,7 +21,7 @@ import com.airhacks.doit.business.ValidEntity;
 @NamedQuery(name = ToDo.findAll, query = "SELECT t FROM ToDo t")
 @XmlAccessorType(XmlAccessType.FIELD) // no getter/setter needed
 @XmlRootElement // for serialization purposes (transfer over network)
-//@CrossCheck
+@CrossCheck
 public class ToDo implements ValidEntity {
 
    @Id
@@ -85,6 +85,13 @@ public class ToDo implements ValidEntity {
     */
    @Override
    public boolean isValid() {
+      boolean check = this.priority > 10 && this.description != null;
+      System.out.println("priority: " + this.priority);
+      System.out.println("description: " + this.description);
+      System.out.println("check: " + check);
+      if (this.priority <= 10) {
+         return true;
+      }
       return (this.priority > 10 && this.description != null);
    }
 }
