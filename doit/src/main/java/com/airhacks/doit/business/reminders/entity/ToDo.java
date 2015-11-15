@@ -11,6 +11,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.airhacks.doit.business.CrossCheck;
+import com.airhacks.doit.business.ValidEntity;
+
 /**
  * Created by sebastianbasner on 31.10.15.
  */
@@ -18,7 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = ToDo.findAll, query = "SELECT t FROM ToDo t")
 @XmlAccessorType(XmlAccessType.FIELD) // no getter/setter needed
 @XmlRootElement // for serialization purposes (transfer over network)
-public class ToDo {
+//@CrossCheck
+public class ToDo implements ValidEntity {
 
    @Id
    @GeneratedValue
@@ -72,5 +76,15 @@ public class ToDo {
 
    public void setDone(boolean done) {
       this.done = done;
+   }
+
+   /**
+    * Checks that a ToDo with priority > 10 has a description.
+    * @return <code>true</code> if priority > 10 and description is present,
+    *         <code>false</code> if one of the conditions is not met
+    */
+   @Override
+   public boolean isValid() {
+      return (this.priority > 10 && this.description != null);
    }
 }
