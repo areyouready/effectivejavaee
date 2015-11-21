@@ -1,9 +1,17 @@
-# ggts
+# general
 .classpath
 .project
 .settings
 target-eclipse
 /target
+/target/*
+/target/*/*
+persistence.xml
+beans.xml
+
+
+# Maven
+pom.properties
 
 # idea
 .idea
@@ -32,6 +40,7 @@ logs
 
 # java
 *.class
+
 
 # generated css
 web-app/css/application.css
