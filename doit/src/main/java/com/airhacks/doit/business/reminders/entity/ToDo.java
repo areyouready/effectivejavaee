@@ -86,9 +86,6 @@ public class ToDo implements ValidEntity {
    @Override
    public boolean isValid() {
       boolean check = this.priority > 10 && this.description != null;
-      System.out.println("priority: " + this.priority);
-      System.out.println("description: " + this.description);
-      System.out.println("check: " + check);
       if (this.priority <= 10) {
          return true;
       }

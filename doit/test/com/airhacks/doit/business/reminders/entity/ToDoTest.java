@@ -21,4 +21,10 @@ public class ToDoTest {
       assertFalse(valid.isValid());
    }
 
+   @Test
+   public void todoWithoutDescription() {
+      ToDo valid = new ToDo("implement", null, 10);
+      assertTrue(valid.isValid());
+   }
+
 }
