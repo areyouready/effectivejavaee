@@ -1,8 +1,11 @@
 package com.airhacks.doit.business.logging.boundary;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+
+import com.airhacks.doit.business.monitoring.entity.CallEvent;
 
 /**
  * Created by sebastianbasner on 23.11.15.
@@ -10,7 +13,7 @@ import javax.interceptor.InvocationContext;
 public class BoundaryLogger {
 
    @Inject
-   LogSink LOG;
+   Event<CallEvent> monitoring;
 
    /**
     * Interceptor that calls the actual method and logs first.
@@ -20,7 +23,12 @@ public class BoundaryLogger {
     */
    @AroundInvoke
    public Object logCall(InvocationContext ic) throws Exception {
-      LOG.log("--" + ic.getMethod());
-      return ic.proceed();
+      long start = System.currentTimeMillis();
+      try {
+         return ic.proceed();
+      } finally {
+         long duration = System.currentTimeMillis() - start;
+         monitoring.fire(new CallEvent(ic.getMethod().getName(), duration)) ;
+      }
    }
 }
