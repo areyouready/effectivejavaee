@@ -1,7 +1,9 @@
 package com.airhacks.doit.business.monitoring.boundary;
 
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
@@ -39,5 +41,10 @@ public class MonitorSink {
 
    public List<CallEvent> getRecentEvents() {
       return this.recentEvents;
+   }
+
+   public LongSummaryStatistics getStatistics() {
+      return  this.recentEvents.stream().
+            collect(Collectors.summarizingLong(CallEvent::getDuration));
    }
 }
