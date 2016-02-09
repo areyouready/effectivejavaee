@@ -78,6 +78,18 @@ public class ToDo implements ValidEntity {
       this.done = done;
    }
 
+   public void setCaption(String caption) {
+      this.caption = caption;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+
+   public void setPriority(int priority) {
+      this.priority = priority;
+   }
+
    /**
     * Checks that a ToDo with priority > 10 has a description.
     * @return <code>true</code> if priority > 10 and description is present,
