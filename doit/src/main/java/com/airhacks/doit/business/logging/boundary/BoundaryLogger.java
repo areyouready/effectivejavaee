@@ -28,7 +28,7 @@ public class BoundaryLogger {
          return ic.proceed();
       } finally {
          long duration = System.currentTimeMillis() - start;
-         monitoring.fire(new CallEvent(ic.getMethod().getName(), duration)) ;
+         monitoring.fire(new CallEvent(ic.getMethod().getName(), duration));
       }
    }
 }
