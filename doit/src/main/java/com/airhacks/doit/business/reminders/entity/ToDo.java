@@ -97,10 +97,9 @@ public class ToDo implements ValidEntity {
     */
    @Override
    public boolean isValid() {
-      boolean check = this.priority > 10 && this.description != null;
       if (this.priority <= 10) {
          return true;
       }
-      return (this.priority > 10 && this.description != null);
+      return (this.description != null && !this.description.isEmpty());
    }
 }
