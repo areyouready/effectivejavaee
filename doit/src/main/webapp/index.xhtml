@@ -14,7 +14,14 @@
         Caption: <input jsf:id="caption" placeholder="Enter the caption" type="text" value="#{index.todo.caption}"/>
         Description: <p:inputText value="#{index.todo.description}"/>
         Priority: <p:inputText value="#{index.todo.priority}"/>
-        <p:commandButton value="Save" action="#{index.save}" update="growl"/>
+        <p:commandButton value="Save" action="#{index.save}" update="growl, reminders"/>
+
+        <p:dataList value="#{index.toDos}" var="todo" type="ordered" id="reminders">
+            <f:facet name="header">
+                Reminders
+            </f:facet>
+            #{todo.caption}, #{todo.description}, #{todo.priority}
+        </p:dataList>
     </h:form>
 </h:body>
 

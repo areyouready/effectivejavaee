@@ -1,5 +1,6 @@
 package com.airhacks.doit.presentation;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,10 @@ public class Index {
 
    public ToDo getTodo() {
       return todo;
+   }
+
+   public List<ToDo> getToDos() {
+      return this.boundary.all();
    }
 
    public void showValidationError(String content) {
