@@ -13,7 +13,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -24,6 +26,7 @@ import com.airhacks.doit.business.reminders.entity.ToDo;
  */
 @Stateless
 @Path("todos")
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) //to return json/xml via the REST api (/api/todos)
 public class ToDosResource {
 
    @Inject
