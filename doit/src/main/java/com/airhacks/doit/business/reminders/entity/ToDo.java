@@ -104,4 +104,16 @@ public class ToDo implements ValidEntity {
       }
       return (this.description != null && !this.description.isEmpty());
    }
+
+   @Override
+   public String toString() {
+      return "ToDo{" +
+            "id=" + id +
+            ", caption='" + caption + '\'' +
+            ", description='" + description + '\'' +
+            ", priority=" + priority +
+            ", done=" + done +
+            ", version=" + version +
+            '}';
+   }
 }
