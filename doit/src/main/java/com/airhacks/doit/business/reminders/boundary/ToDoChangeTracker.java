@@ -7,6 +7,9 @@ import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -18,7 +21,7 @@ import com.airhacks.doit.business.reminders.entity.ToDo;
  * Created by sebastianbasner on 11.02.16.
  */
 @Singleton
-@ServerEndpoint("/changes") //websocket
+@ServerEndpoint(value = "/changes", encoders = {JsonEncoder.class}) //websocket
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN) //no further locking is needed
 public class ToDoChangeTracker {
 
@@ -41,10 +44,19 @@ public class ToDoChangeTracker {
       this.session = null;
    }
 
-   public void onToDoChange (@Observes(during = TransactionPhase.AFTER_SUCCESS) ToDo todo) {
+   /**
+    * Only receives events on creation of new ToDos
+    * @param todo the created ToDo
+    * @throws EncodeException
+    */
+   public void onToDoChange (@Observes(during = TransactionPhase.AFTER_SUCCESS) @ChangeEvent(ChangeEvent.Type.CREATION) ToDo todo) throws EncodeException {
       if (this.session != null && this.session.isOpen()) {
          try {
-            this.session.getBasicRemote().sendText(todo.toString() );
+            final JsonObject event = Json.createObjectBuilder().
+                  add("id", todo.getId()).
+                  add("cause", "creation").
+                  build();
+            this.session.getBasicRemote().sendObject(event);
          } catch (IOException e) {
             //can be ignored here
          }
