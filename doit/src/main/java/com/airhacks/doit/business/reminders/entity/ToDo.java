@@ -12,8 +12,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.airhacks.doit.business.CrossCheck;
-import com.airhacks.doit.business.ValidEntity;
+import com.airhacks.doit.business.validation.CrossCheck;
+import com.airhacks.doit.business.validation.ValidEntity;
 
 /**
  * Created by sebastianbasner on 31.10.15.

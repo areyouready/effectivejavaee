@@ -15,9 +15,11 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.airhacks.doit.business.encoders.JsonEncoder;
 import com.airhacks.doit.business.reminders.entity.ToDo;
 
 /**
+ * Gathers the events fired by the @see com.airhacks.doit.business.reminders.entity.ToDoAuditor and exposes them via WebSockets.
  * Created by sebastianbasner on 11.02.16.
  */
 @Singleton

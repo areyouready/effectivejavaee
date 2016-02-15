@@ -8,6 +8,7 @@ import javax.persistence.PostUpdate;
 import com.airhacks.doit.business.reminders.boundary.ChangeEvent;
 
 /**
+ * Intercepts events and transforms them to CDI events.
  * Created by sebastianbasner on 11.02.16.
  */
 public class ToDoAuditor {

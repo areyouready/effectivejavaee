@@ -1,4 +1,4 @@
-package com.airhacks.doit.business;
+package com.airhacks.doit.business.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,4 +1,4 @@
-package com.airhacks.doit.business;
+package com.airhacks.doit.business.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,3 +25,4 @@ public @interface CrossCheck {
    Class<? extends Payload>[] payload() default {};
 
 }
+
