@@ -11,6 +11,7 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 /**
+ * A encoder for JSon Messages.
  * Created by sebastianbasner on 14.02.16.
  */
 public class JsonEncoder implements Encoder.TextStream<JsonObject> {

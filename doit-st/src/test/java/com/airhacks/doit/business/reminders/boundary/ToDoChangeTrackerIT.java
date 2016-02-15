@@ -4,7 +4,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
+import javax.json.JsonObject;
+import javax.websocket.ClientEndpointConfig;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
 import javax.websocket.WebSocketContainer;
@@ -26,12 +29,15 @@ public class ToDoChangeTrackerIT {
       this.container = ContainerProvider.getWebSocketContainer();
       URI uri = new URI("ws://localhost:8080/doit/changes");
       this.listener = new ChangesListener();
-      this.container.connectToServer(this.listener, uri);
+      ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().
+            decoders(Arrays.asList(JsonDecoder.class)).
+            build();
+      this.container.connectToServer(this.listener, cec, uri);
    }
 
    @Test
    public void receiveNotifications () throws InterruptedException {
-      final String message = this.listener.getMessage();
+      final JsonObject message = this.listener.getMessage();
       assertNotNull(message);
       System.out.println("message from test = " + message);
    }
